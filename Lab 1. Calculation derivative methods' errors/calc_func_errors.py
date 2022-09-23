@@ -37,21 +37,21 @@ FUNCTIONS_ARRAY = np.array([
     lambda x: np.cos(np.sin(x)),
     lambda x: np.exp(np.sin(np.cos(x))),
     lambda x: np.log(x + 3.0),
-    lambda x: (x + 3.0) ** 0.5])
+    lambda x: np.sqrt(x + 3.0)])
 
 FUNCTIONS_DERIVATIVES_ARRAY = np.array([
     lambda x: 2 * x * np.cos(x ** 2),
     lambda x: -np.sin(np.sin(x)) * np.cos(x),
     lambda x: np.exp(np.sin(np.cos(x))) * np.cos(np.cos(x)) * (-np.sin(x)),
     lambda x: 1.0 / (x + 3.0),
-    lambda x: 1.0 / 2.0 / np.sqrt(x + 3.0)])
+    lambda x: 0.5 / np.sqrt(x + 3.0)])
 
 DERIVATIVES_ARRAY = np.array([
     lambda func, x, h: (func(x + h) - func(x)) / h,
     lambda func, x, h: (func(x) - func(x - h)) / h,
     lambda func, x, h: (func(x + h) - func(x - h)) / 2 / h,
-    lambda func, x, h: (4 / 3 * (func(x + h) - func(x - h)) / 2 / h - 1 / 3 * (func(x + 2 * h) - func(x - 2 * h)) / 4 / h),
-    lambda func, x, h: (3 / 2 * (func(x + h) - func(x - h)) / 2 / h - 3 / 5 * (func(x + 2 * h) - func(x - 2 * h)) / 4 / h + 1 / 10 * (func(x + 3 * h) - func(x - 3 * h)) / 6 / h)])
+    lambda func, x, h: (4.0 / 3.0 * (func(x + h) - func(x - h)) / 2 / h - 1.0 / 3.0 * (func(x + 2 * h) - func(x - 2 * h)) / 4 / h),
+    lambda func, x, h: (3.0 / 2.0 * (func(x + h) - func(x - h)) / 2 / h - 3.0 / 5.0 * (func(x + 2 * h) - func(x - 2 * h)) / 4 / h + 1.0 / 10.0 * (func(x + 3 * h) - func(x - 3 * h)) / 6 / h)])
 
 FUNCTION_NAMES = np.array(['$sin(x^2)$', '$cos(sin(x))$', '$e^{sin(cos(x))}$', '$ln(x + 3)$', '$(x + 3)^{1/2}$'])
 DERIVATIVE_NAMES = np.array(['1', '2', '3', '4', '5'])
