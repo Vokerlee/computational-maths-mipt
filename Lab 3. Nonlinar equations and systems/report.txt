@@ -18,3 +18,4 @@ Part 2: iteration Newton method for system of nonlinear equation
   4) Stop criteria max(abs(x_{k+1} - x_k), abs(y_{k+1} - y_k)) < 1e-9 is used
   5) Calculated roots: x =1.7913386099639217, y =-0.344221036406757
      Amount of iterations: 5
+     
