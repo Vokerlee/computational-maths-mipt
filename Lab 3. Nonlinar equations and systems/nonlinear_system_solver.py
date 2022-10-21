@@ -52,7 +52,7 @@ print('  2) Plot of the system show, that there is the single root in area x \in
 print('  3) Iteration process: x_{k+1} = cos(y_k) + 0.85')
 print('                        y_{k+1} = sin(x_k) - 1.32')
 print('  4) Stop criteria max(abs(x_{k+1} - x_k), abs(y_{k+1} - y_k)) < 1e-9 is used')
-print('  5) Calculated roots: x =' + str(roots_vector[0]) + ', y =' + str(roots_vector[1]))
+print('  5) Calculated roots: x = ' + str(roots_vector[0]) + ', y = ' + str(roots_vector[1]))
 print('     Amount of iterations:', n_iters)
 
 # SCRIPT END
