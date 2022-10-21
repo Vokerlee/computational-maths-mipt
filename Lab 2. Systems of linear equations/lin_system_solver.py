@@ -131,7 +131,7 @@ def method_upper_relaxation(linear_system):
 def get_system_params1(n):
     n = n - 1
 
-    matrix = np.full((n + 1, n + 1), np.float64(0))
+    matrix = np.full([[], []])
     for i in range(n + 1):
         for j in range(n + 1):
             if i == j:
@@ -152,6 +152,8 @@ def get_system_params1(n):
     return matrix, f
 
 ####################################################################################
+
+# SCRIPT START
 
 matrix, f = get_system_params1(100)
 print("The number of conditionality:", np.linalg.norm(matrix, ord=2) * np.linalg.norm(np.linalg.inv(matrix), ord=2))
@@ -178,3 +180,5 @@ print(linear_system2.solution)
 
 print("\nStop criteria for upper relaxation method: epsilon = 1e-15")
 print("Printing of residuals:", np.linalg.norm(np.dot(linear_system2.matrix, linear_system2.solution) - linear_system2.f, ord=2))
+
+# SCRIPT END
