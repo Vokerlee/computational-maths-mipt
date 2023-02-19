@@ -30,7 +30,7 @@ def method_Euler_1st_order(h_step, t, x_vec, diff_function):
 
     return t, x_vec
 
-def method_classic_RK_4st_order(h_step, t, x_vec, diff_function):
+def method_classic_RK_4th_order(h_step, t, x_vec, diff_function):
     n_steps = np.shape(x_vec)[0]
 
     for j in range(1, np.shape(t)[0]):
@@ -44,7 +44,7 @@ def method_classic_RK_4st_order(h_step, t, x_vec, diff_function):
 
     return t, x_vec
 
-def method_Adams_3st_order(h_step, t, x_vec, diff_function):
+def method_Adams_3d_order(h_step, t, x_vec, diff_function):
     n_steps = np.shape(x_vec)[0]
 
     f_vec = np.zeros((n_steps, np.shape(x_vec[0])[0]))
@@ -59,7 +59,7 @@ def method_Adams_3st_order(h_step, t, x_vec, diff_function):
 
     for j in range(3, np.shape(t)[0]):
         x_vec[j] = x_vec[j - 1] + \
-            h_step * (23/12 * f_vec[j - 1] - 16/12 * f_vec[j - 2] + 5/12 * f_vec[j - 2])
+            h_step * (23 / 12 * f_vec[j - 1] - 16 / 12 * f_vec[j - 2] + 5 / 12 * f_vec[j - 2])
         f_vec[j] = diff_function(t[j], x_vec[j])
 
     return t, x_vec
@@ -78,25 +78,38 @@ def get_function_lab1(param):
 
 func_lab = get_function_lab1(1)
 
-t_step, solution_lab1_vec = \
-    solve_diff_eq(0.08, 0, 100, np.array([2, 0]), func_lab, method_Euler_1st_order)
-t_step, solution_lab2_vec = \
-    solve_diff_eq(0.08, 0, 100, np.array([2, 0]), func_lab, method_classic_RK_4st_order)
-t_step, solution_lab3_vec = \
-    solve_diff_eq(0.08, 0, 100, np.array([2, 0]), func_lab, method_Adams_3st_order)
+step = 0.01
 
-ax = plt.figure().add_subplot(projection='3d')
-for i in range(np.shape(solution_lab1_vec)[0]):
-    ax.scatter(solution_lab1_vec[i][0], solution_lab1_vec[i][1], t_step[i], c='g')
-    ax.scatter(solution_lab2_vec[i][0], solution_lab2_vec[i][1], t_step[i], c='b')
-    ax.scatter(solution_lab3_vec[i][0], solution_lab3_vec[i][1], t_step[i], c='r')
+t_step, solution_vec1 = \
+    solve_diff_eq(step, 0, 100, np.array([2, 0]), func_lab, method_Euler_1st_order)
+t_step, solution_vec2 = \
+    solve_diff_eq(step, 0, 100, np.array([2, 0]), func_lab, method_classic_RK_4th_order)
+t_step, solution_vec3 = \
+    solve_diff_eq(step, 0, 100, np.array([2, 0]), func_lab, method_Adams_3d_order)
 
-ax.legend()
-ax.set_xlabel('x1')
-ax.set_ylabel('x2')
-ax.set_zlabel('t')
+x1_version1 = np.array([solution_vec1[i][0] for i in range(np.shape(solution_vec1)[0])])
+x2_version1 = np.array([solution_vec1[i][1] for i in range(np.shape(solution_vec1)[0])])
 
-ax.view_init(elev=20., azim=-35, roll=0)
+x1_version2 = np.array([solution_vec2[i][0] for i in range(np.shape(solution_vec2)[0])])
+x2_version2 = np.array([solution_vec2[i][1] for i in range(np.shape(solution_vec2)[0])])
+
+x1_version3 = np.array([solution_vec3[i][0] for i in range(np.shape(solution_vec3)[0])])
+x2_version3 = np.array([solution_vec3[i][1] for i in range(np.shape(solution_vec3)[0])])
+
+axes = plt.figure().add_subplot(projection='3d')
+
+axes.plot(x1_version1, x2_version1, t_step, c='g', label='Euler method (1st order)')
+axes.plot(x1_version2, x2_version2, t_step, c='r', label='Classic RK method (4th order)')
+axes.plot(x1_version3, x2_version3, t_step, c='b', label='Adams method (3d order)')
+
+axes.legend()
+axes.set_xlabel('x1')
+axes.set_ylabel('x2')
+axes.set_zlabel('t')
+
+axes.set_title('Step ' + str(step))
+
+axes.view_init(elev=20., azim=-35, roll=0)
 
 plt.show()
 
