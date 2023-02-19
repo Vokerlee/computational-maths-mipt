@@ -36,7 +36,7 @@ def method_classic_RK_4th_order(h_step, t, x_vec, diff_function):
     for j in range(1, np.shape(t)[0]):
         k1_vec = diff_function(t[j - 1], x_vec[j - 1])
         k2_vec = diff_function(t[j - 1] + 1 / 2 * h_step, x_vec[j - 1] + 1 / 2 * h_step * k1_vec)
-        k3_vec = diff_function(t[j - 1] + 1 / 2 * h_step, x_vec[j - 1] + 1/2 * h_step * k2_vec)
+        k3_vec = diff_function(t[j - 1] + 1 / 2 * h_step, x_vec[j - 1] + 1 / 2 * h_step * k2_vec)
         k4_vec = diff_function(t[j - 1] + 1 * h_step, x_vec[j - 1] + 1 * h_step * k3_vec)
 
         x_vec[j] = x_vec[j - 1] + \
