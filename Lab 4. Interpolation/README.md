@@ -51,6 +51,7 @@ $$S(x) = a_i + b_i (x - x_i) + \frac{c_i}{2} (x - x_i)^2 +  \frac{d_i}{6} (x - x
 $$f''(1910) = f''(2015) = 0$$
 
 Нахождение коэффициентов сплайна осуществляется через коэффициенты $c_i$, являющимися решениями уравнения $Mx = f$, где
+
 $$M = \left(
     \begin{matrix}
         C_1 & B_1 & 0 & 0 & \dots & 0 & 0\\
@@ -60,12 +61,18 @@ $$M = \left(
         \dots & \dots & \dots & \dots & \dots & \dots & B_{n - 1}\\
         C_1 & B_1 & 0 & 0 & \dots & A_n & C_n\\
     \end{matrix}
-    \right), где \: n = 8$$
+    \right), где \: n = 8
+$$
 
-Граничные условия выражаются как $$c_0 = c_{12} = 0$$
+Граничные условия выражаются как 
+
+$$c_0 = c_{12} = 0$$
+
 $$A_i = x_i - x_{i - 1}, i = \overline{2\dots n}, \: \:
   B_i = x_{i + 1} - x_{i}, i = \overline{1\dots n - 1}, \:\:
-  C_i = 2\cdot\left(x_{i + 1} - x_{i - 1}\right), i = \overline{1\dots n}$$
+  C_i = 2\cdot\left(x_{i + 1} - x_{i - 1}\right), i = \overline{1\dots n}
+$$
+
 $$F_i = 6 \cdot \left(
     \frac{y_{i + 1} - y_i}{x_{i + 1} - x_i} - 
     \frac{y_{i} - y_{i - 1}}{x_{i} - x_{i - 1}}
