@@ -64,16 +64,22 @@ $$M = \left(
     \right), где \: n = 8
 $$
 
-Граничные условия выражаются как 
+Граничные условия выражаются как
 
-$$c_0 = c_{12} = 0$$
-
-$$A_i = x_i - x_{i - 1}, i = \overline{2\dots n}, \: \:
-  B_i = x_{i + 1} - x_{i}, i = \overline{1\dots n - 1}, \:\:
-  C_i = 2\cdot\left(x_{i + 1} - x_{i - 1}\right), i = \overline{1\dots n}
+$$
+c_0 = c_{12} = 0
 $$
 
-$$F_i = 6 \cdot \left(
+$$
+\begin{cases}
+    A_i = x_i - x_{i - 1}, i = \overline{2\dots n}, \\
+    B_i = x_{i + 1} - x_{i}, i = \overline{1\dots n - 1}, \\
+    C_i = 2\cdot\left(x_{i + 1} - x_{i - 1}\right), i = \overline{1\dots n}
+\end{cases}
+$$
+
+$$
+F_i = 6 \cdot \left(
     \frac{y_{i + 1} - y_i}{x_{i + 1} - x_i} - 
     \frac{y_{i} - y_{i - 1}}{x_{i} - x_{i - 1}}
     \right)
