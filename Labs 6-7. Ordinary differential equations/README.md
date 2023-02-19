@@ -12,7 +12,7 @@ $$
 \begin{cases}
     x_1' = x_2 \\
     x_2' = e \cdot (1 - x_1^2) x_2 - x_1, \; e > 0 \\
-    x_1(0) = 0, \; x_2(0) = 0.
+    x_1(0) = 2, \; x_2(0) = 0.
 \end{cases}
 $$
 
@@ -25,8 +25,8 @@ $$
 явным методом Адамса 3-его порядка
 
 $$
-\vec{x}_{n + 3} = \vec{x}_{n + 2} + h \cdot (\frac{23}{12} \vec{f}(t_{n + 2}, \vec{x}_{n + 2}) -
-\frac{16}{12} \vec{f}(t_{n + 1}, \vec{x}_{n + 1}) + \frac{5}{12} \vec{f}(t_{n}, \vec{x}_{n})),
+\vec{x}_{n + 3} = \vec{x}_{n + 2} + h \cdot \left(\frac{23}{12} \vec{f}(t_{n + 2}, \vec{x}_{n + 2}) -
+\frac{16}{12} \vec{f}(t_{n + 1}, \vec{x}_{n + 1}) + \frac{5}{12} \vec{f}(t_{n}, \vec{x}_{n}) \right),
 $$
 
 и классическим методом Рунге-Кутты 4-ого порядка.
@@ -44,9 +44,10 @@ $$
 
 В результате на интервале от `0` до `100` имеем решения для различных шагов:
 
-<img src="images/lab1_step_0.2.png" width=450 class="center">
-<img src="images/lab1_step_0.05.png" width=450 class="center">
-<img src="images/lab1_step_0.01.png" width=450 class="center">
+<img src="images/lab1_step_0.2.png" width=500 class="center">
+<img src="images/lab1_step_0.05.png" width=500 class="center">
+<img src="images/lab1_step_0.01.png" width=500 class="center">
+<img src="images/lab1_step_0.001.png" width=500 class="center">
 
 ## Лабораторная работа №7. Решение ОДУ (обыкновенных дифференциальных уравнений) неявными методами
 
@@ -62,6 +63,7 @@ $$
 
 Решим её с помощью неявного метода Гира 3-его порядка, разрешая на каждом шаге нелинейную систему
 уравнений методом Ньютона:
+
 $$
 \vec{x}_{n + 3} - \frac{18}{11} \vec{x}_{n + 2} + \frac{9}{11} \vec{x}_{n + 1} -
 \frac{1}{11} \vec{x}_{n} = \frac{6h}{11} = \vec{f}(t_{n + 3}, \vec{x}_{n + 3}).
@@ -69,4 +71,4 @@ $$
 
 В результате получим следующее решение при начальных условиях, близких к нулю:
 
-<img src="images/lab2_plot.png" width=450 class="center">
+<img src="images/lab2_plot.png" width=700 class="center">

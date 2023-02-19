@@ -78,7 +78,7 @@ def get_function_lab1(param):
 
 func_lab = get_function_lab1(1)
 
-step = 0.01
+step = 0.001
 
 t_step, solution_vec1 = \
     solve_diff_eq(step, 0, 100, np.array([2, 0]), func_lab, method_Euler_1st_order)
