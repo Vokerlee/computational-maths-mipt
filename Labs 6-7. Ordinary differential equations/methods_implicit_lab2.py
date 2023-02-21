@@ -10,7 +10,7 @@ from matplotlib.ticker   import MaxNLocator, ScalarFormatter, FixedFormatter
 matplotlib.rcParams['axes.formatter.limits'] = (-5, 4)
 
 MAX_LOCATOR_NUMBER = 10
-FIGURE_XSIZE = 10
+FIGURE_XSIZE = 15
 FIGURE_YSIZE = 8
 
 BACKGROUND_RGB = '#F5F5F5'
@@ -38,10 +38,10 @@ class NonlinearEqSystem:
     def solve_eq(self, initial_vector, stop_iter_epsilon):
         n_iters = 0
         vector_k_next = np.copy(initial_vector)
-        vector_k = np.copy(initial_vector) + np.ones(len(initial_vector)) # ||x_k - x_k_next|| > stop_iter_epsilon
+        vector_k = np.copy(initial_vector) + np.ones(len(initial_vector)) * 2 * stop_iter_epsilon # ||x_k - x_k_next|| > stop_iter_epsilon
         
         while np.abs(np.linalg.norm(vector_k, ord=inf) - np.linalg.norm(vector_k_next, ord=inf)) > stop_iter_epsilon and \
-            n_iters <= 10000:
+            n_iters <= 30000:
             vector_k = np.copy(vector_k_next)
             vector_k_next = vector_k - np.dot(np.linalg.inv(self.get_jacobian(vector_k)), self.get_sys_equation(vector_k))
             n_iters += 1
@@ -70,22 +70,28 @@ def solve_diff_eq(h_step, t_start, t_end, x0_vec, diff_function, method):
 
 def function_lab2(t, x_vec):
     return np.array([77.27 * (x_vec[1] + x_vec[0] * (1 - 8.375 * 10 ** (-6) * x_vec[0] - x_vec[1])), \
-                     1 / 77.27 * (x_vec[2]  - (1 + x_vec[0]) * x_vec[1]), \
+                     1.0 / 77.27 * (x_vec[2]  - (1 + x_vec[0]) * x_vec[1]), \
                      0.161 * (x_vec[0] - x_vec[2])])
 
 def get_jacobian_lab2(x_vec):
     return np.array([[77.27 * (1 - x_vec[0] * 2 * 8.375 * 10 ** (-6) - x_vec[1]), \
                       77.27 * (1 - x_vec[0]), 0], \
-                      [-77.27 * x_vec[1], 1 / 77.27 * (-1 - x_vec[0]), 1 / 77.27], \
+                      [-1/77.27 * x_vec[1], 1 / 77.27 * (-1 - x_vec[0]), 1 / 77.27], \
                       [0.161, 0, -0.161]])
 
 def get_Gear_jacobian_func(h_step, get_jacobian_func, x_vec):
     return lambda x: np.eye(np.shape(x_vec)[0]) - 6 * h_step / 11 * get_jacobian_func(x)
 
-def get_sys_equation_func(h_step, function, x_vec, t, x_free_vec):
+def get_Euler_jacobian_func(h_step, get_jacobian_func, x_vec):
+    return lambda x: np.eye(np.shape(x_vec)[0]) - h_step * get_jacobian_func(x)
+
+def get_Gear_sys_equation_func(h_step, function, x_vec, t, x_free_vec):
     return lambda x: x - 6 * h_step / 11 * function_lab2(t, x) + x_free_vec
 
-def method_Gear_3st_order(h_step, t, x_vec, diff_function):
+def get_Euler_sys_equation_func(h_step, function, x_vec, t, x_free_vec):
+    return lambda x: x - h_step * function_lab2(t, x) + x_free_vec
+
+def method_Gear_3d_order(h_step, t, x_vec, diff_function):
     n_steps = np.shape(x_vec)[0]
 
     f_vec = np.zeros((n_steps, np.shape(x_vec[0])[0]))
@@ -100,11 +106,18 @@ def method_Gear_3st_order(h_step, t, x_vec, diff_function):
 
     for j in range(3, np.shape(t)[0]):
         x_free_vec = -18 / 11 * x_vec[j - 1] + 9 / 11 * x_vec[j - 2] - 2 / 11 * x_vec[j - 3]
-        system = NonlinearEqSystem(get_Gear_jacobian_func(h_step, get_jacobian_lab2, x_vec[j]), \
-                                   get_sys_equation_func(h_step, diff_function, x_vec[j], t[j], x_free_vec))
+        # x_free_vec = -x_vec[j - 1]
 
-        x_vec[j], n_iters = system.solve_eq(x_vec[0], 1e-8)
-        print(j, np.shape(t)[0], x_vec[j], n_iters)
+        x_start_vec = x_vec[j - 1] + \
+            h_step * (23 / 12 * f_vec[j - 1] - 16 / 12 * f_vec[j - 2] + 5 / 12 * f_vec[j - 2])
+        # x_start_vec = x_vec[j - 1]
+        
+        system = NonlinearEqSystem(get_Gear_jacobian_func(h_step, get_jacobian_lab2, x_vec[j]), \
+                                   get_Gear_sys_equation_func(h_step, diff_function, x_vec[j], t[j], x_free_vec))
+
+        x_vec[j], n_iters = system.solve_eq(x_start_vec, 1e-6)
+        # print(j, np.shape(t)[0], x_vec[j], n_iters)
+
         f_vec[j] = diff_function(t[j], x_vec[j])
 
     return t, x_vec
@@ -114,7 +127,8 @@ def method_Gear_3st_order(h_step, t, x_vec, diff_function):
 # SCRIPT START
 
 t_step, solution_vec = \
-    solve_diff_eq(0.0001, 0, 1.8, np.array([0.0001, 0.00021, 0.000001]), function_lab2, method_Gear_3st_order)
+    solve_diff_eq(0.01, 0, 800, np.array([4, 1.1, 4]), function_lab2, method_Gear_3d_order)
+
 figure = plt.figure(figsize=(FIGURE_XSIZE, FIGURE_YSIZE), facecolor=BACKGROUND_RGB)
 gs = GridSpec(ncols=1, nrows=1, figure=figure)
 axes = figure.add_subplot(gs[0, 0])
