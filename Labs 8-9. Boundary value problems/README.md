@@ -12,6 +12,7 @@ $$
 $$
 
 Перепишем данное ДУ в нормальном виде:
+
 $$
 \begin{cases}
     z' + \frac{0.5}{1 - 0.5 y} \cdot z^2 = 0, \; 0 \ll x \ll 1 \\
@@ -21,6 +22,7 @@ $$
 $$
 
 Введём сетку и рассмотрим разностную задачу на сетке.
+
 $$
 \begin{cases}
     \frac{z_{n + 1} - z_n}{h} + \frac{0.5}{1 - 0.5 y_n} \cdot z_n^2 = 0, \; 0 \ll x \ll 1 \\
@@ -35,6 +37,6 @@ $$
 
 В результате получим графики для различных начальных условий:
 
-<img src="images/shooting_method.png" width=500 class="center">
+<img src="images/shooting_method.png" width=700 class="center">
 
 ### Метод прогонки (линейная краевая задача)
